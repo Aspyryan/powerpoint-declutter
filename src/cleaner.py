@@ -8,8 +8,15 @@ import os
 import io
 import pytesseract
 from PIL import Image
+import shutil
 
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Search for the tesseract executable in the system PATH
+tesseract_path = shutil.which("tesseract")
+
+if tesseract_path is None:
+    raise EnvironmentError("Tesseract executable not found in PATH. Please install Tesseract OCR.")
+else:
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
 
 def hex_to_rgb_color(hex_color):
     """Convert a hex color (e.g. '#FF0000') to an RGBColor."""
