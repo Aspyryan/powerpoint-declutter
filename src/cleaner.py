@@ -201,16 +201,7 @@ class PPTCleanerApp:
                             continue
                         seen_texts.add(text)
 
-                    # If the shape is a WordArt, treat it as WordArt (change formatting)
-                    if "WordArt" in shape.name:
-                        for paragraph in shape.text_frame.paragraphs:
-                            for run in paragraph.runs:
-                                if settings['enable_custom_font'] and settings['custom_font']:
-                                    run.font.name = settings['custom_font']
-                                    run.font.size = settings['custom_font_size']
-                                run.font.bold = settings['text_bold']
-                                run.font.color.rgb = settings['text_color']
-                    else:
+                    if ("WordArt" in shape.name and self.settings['remove_wordart']) or "WordArt" not in shape.name:
                         # Apply text formatting for regular text shapes
                         for paragraph in shape.text_frame.paragraphs:
                             for run in paragraph.runs:
